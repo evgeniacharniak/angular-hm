@@ -6,5 +6,22 @@ import { Component } from '@angular/core';
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent {
-  title = 'hw-popit';
+  private name = 'User';
+   name1 = 'User';
+
+  public rows:string[] = ['red', 'orange', 'yellow', 'green', 'blue', 'indigo', 'violet']
+  public columns:boolean[][] =
+  [
+    [true, true, true, true, true, true, true],
+    [true, true, true, true, true, true, true],
+    [true, true, true, true, true, true, true],
+    [true, true, true, true, true, true, true],
+    [true, true, true, true, true, true, true],
+    [true, true, true, true, true, true, true],
+    [true, true, true, true, true, true, true],
+  ]
+
+  public toggle(row: number, column:number):void {
+    this.columns[row][column] = !this.columns[row][column];
+  }
 }
