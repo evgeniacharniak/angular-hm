@@ -1,0 +1,51 @@
+
+:host {
+
+  .main_popit {
+    height: 100%;
+    background: lightgreen;
+  }
+
+  .section_popit {
+    height: 100%;
+    padding-left: 120px;
+    padding-top: 100px;
+  }
+
+  .section-popit__button-popit {
+    border-radius: 50% 50%;
+    height: 50px;
+    width: 50px;
+    border: none;
+    box-shadow: 4px 4px 6px rgba(0,0,0,0.5);
+    font-size: 12pt;
+    color: white;
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif
+  }
+
+  .section-popit__popped-button {
+    background: lightgrey;
+    color: lightgrey;
+  }
+  .section-popit__button-popit-row1 {
+    background: red;
+  }
+  .section-popit__button-popit-row2 {
+    background: orange;
+  }
+  .section-popit__button-popit-row3 {
+    background: yellow;
+  }
+  .section-popit__button-popit-row4 {
+    background: green;
+  }
+  .section-popit__button-popit-row5 {
+    background: blue;
+  }
+  .section-popit__button-popit-row6 {
+    background: indigo;
+  }
+  .section-popit__button-popit-row7 {
+    background: violet;
+  }
+}
