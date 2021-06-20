@@ -1,0 +1,30 @@
+:host {
+  display: block;
+  padding: 10px;
+
+  .answer {
+    border-radius: 3px;
+    height: 30px;
+    width: 100px;
+  }
+
+  .answer_disabled {
+    pointer-events: none;
+  }
+
+  .answer_select {
+    background: rgb(204, 159, 9);
+  }
+
+  .answer_correct {
+    background: rgb(31, 83, 31);
+  }
+
+  .answer_wrong {
+    background: rgb(206, 36, 36);
+  }
+
+  .answer_init {
+    background: rgb(103, 103, 236);
+  }
+}

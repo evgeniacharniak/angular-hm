@@ -1,9 +1,10 @@
-import { Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 
 @Component({
   selector: 'mf-root',
   templateUrl: './app.component.html',
-  styleUrls: ['./app.component.scss']
+  styleUrls: ['./app.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class AppComponent {
   private name = 'User';
@@ -21,7 +22,11 @@ export class AppComponent {
     [true, true, true, true, true, true, true],
   ]
 
-  public toggle(row: number, column:number):void {
+  public toggle(row:
+    number  ,
+    column:
+    number):
+    void {
     this.columns[row][column] = !this.columns[row][column];
   }
 }

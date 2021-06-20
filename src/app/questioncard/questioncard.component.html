@@ -1,0 +1,8 @@
+<h3>{{q.question}}</h3>
+<mf-answercard
+    *ngFor="let answer of q.answersList"
+    [answer]="answer" [questionStatus]="questionStatus()"
+    (clickEmitter)="clickHandler($event)"
+>
+    {{answer.answer}}
+</mf-answercard>

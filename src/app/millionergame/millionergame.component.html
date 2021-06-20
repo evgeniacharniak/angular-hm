@@ -1,0 +1,22 @@
+<h1>Кто хочет стать миллионером!?</h1>
+
+<mf-questioncard
+    [q]="game.questions[qn]"
+    (clickEmitter)="clickHandler($event)"
+></mf-questioncard>
+
+<p *ngIf="!(game.questions[game.questions.length - 1].isAnswered()); else result">Текущий счет: {{getScore()}}</p>
+<button
+    class="button_control"
+    *ngIf="game.questions[qn].isAnswered() && qn != game.questions.length - 1"
+    (click)="nextQuestionHandler()"
+>
+    Следующий вопрос
+</button>
+<ng-template #result>
+    <p>
+        Игра завершена! Ваш счет составил: {{getScore()}}
+    </p>
+    <button class="button_control" (click)="restart()">Начать игру заново</button>
+</ng-template>
+
