@@ -1,4 +1,6 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
+import { QuestionsDataService } from './data-service/questions-data.service';
+import { Question } from './models/question';
 
 @Component({
   selector: 'mf-root',
@@ -6,27 +8,27 @@ import { ChangeDetectionStrategy, Component } from '@angular/core';
   styleUrls: ['./app.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class AppComponent {
-  private name = 'User';
-   name1 = 'User';
+export class AppComponent /*implements OnInit*/ {
 
-  public rows:string[] = ['red', 'orange', 'yellow', 'green', 'blue', 'indigo', 'violet']
-  public columns:boolean[][] =
-  [
-    [true, true, true, true, true, true, true],
-    [true, true, true, true, true, true, true],
-    [true, true, true, true, true, true, true],
-    [true, true, true, true, true, true, true],
-    [true, true, true, true, true, true, true],
-    [true, true, true, true, true, true, true],
-    [true, true, true, true, true, true, true],
-  ]
+  // private _questionsList!: Array<Question>;
+  // public get questionsList(): Array<Question> {
+  //   return this._questionsList;
+  // }
 
-  public toggle(row:
-    number  ,
-    column:
-    number):
-    void {
-    this.columns[row][column] = !this.columns[row][column];
-  }
+  // public get questionsDataService(): QuestionsDataService {
+  //   return this._questionsDataService;
+  // }
+
+  // public constructor(private _questionsDataService: QuestionsDataService) {
+  //   this.questionsDataService.getQuestionsObservable().subscribe(questions => {
+  //     this._questionsList = questions;
+  //   });
+  // }
+
+  // ngOnInit(): void {
+  //   console.log('app.component ngOnInit');
+  //   this.questionsDataService.getQuestionsObservable().subscribe(questions => {
+  //     this._questionsList = questions;
+  //   }); // work via subscriber
+  // }
 }

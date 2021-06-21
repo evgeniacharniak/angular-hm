@@ -6,6 +6,7 @@ import { AppComponent } from './app.component';
 import { MillionergameComponent } from './millionergame/millionergame.component';
 import { QuestioncardComponent } from './questioncard/questioncard.component';
 import { AnswercardComponent } from './answercard/answercard.component';
+import { QuestionsDataService } from './data-service/questions-data.service';
 
 @NgModule({
   declarations: [
@@ -18,7 +19,9 @@ import { AnswercardComponent } from './answercard/answercard.component';
     BrowserModule,
     FormsModule,
   ],
-  providers: [],
+  providers: [
+    QuestionsDataService
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

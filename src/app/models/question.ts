@@ -5,13 +5,19 @@ export class Question {
   public get question(): string {
     return this._question;
   }
+
   public get answersList(): Array<Answer> {
     return this._answersList;
   }
 
+  public get questionCost(): number {
+    return this._questionCost;
+  }
+
   constructor(
     private _question: string,
-    private _answersList: Array<Answer>
+    private _answersList: Array<Answer>,
+    private _questionCost: number
   ) { }
 
   public isAnswered(): boolean {
@@ -35,4 +41,15 @@ export class Question {
     this.answersList[ind].status = "correct";
   }
 
+  public resetSelectedAnswer(answer: Answer): void {
+    this.answersList.forEach(function (el, index, arr) {
+      arr[index].status = el.answer == answer.answer ? answer.status : 'default';
+    });
+  }
+
+  public resetAnswers(): void {
+    this.answersList.forEach(function (el, index, arr) {
+      arr[index].status = 'default';
+    });
+  }
 }

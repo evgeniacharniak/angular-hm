@@ -5,7 +5,7 @@
                 answer_correct:(answer.status == 'answered' && answer.isCorrect || answer.status == 'correct'),
                 answer_wrong:(answer.status == 'answered' && !answer.isCorrect),
                 answer_disabled: (questionStatus == 'answered') }"
-    (click)="checkAnswerHandler()"
+    (click)="clickAnswerHandler()"
 >
     {{answer.answer}}
 </button>

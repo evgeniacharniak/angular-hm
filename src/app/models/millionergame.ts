@@ -1,30 +1,21 @@
-import { questionCostsList, questionsDb } from "./constants/questionslist";
 import { Question } from "./question";
 
 export class MillionerGame {
 
-  private _questions: Array<Question>;
-  public get questions(): Array<Question> {
-    return this._questions;
-  }
+  private _score: number = 0;
 
   public constructor() {
-    this._questions = [...questionsDb];
   }
 
-  public millionerGameGetScore(): number {
-    let score: number = 0;
-    questionsDb.forEach(function (q, ind, questionsDb) {
-      score += q.isCorrectAnswered() ? questionCostsList[ind] : 0;
-    });
-    return score;
+  public updateScore(q: Question): number {
+    this._score += q.isCorrectAnswered() ? q.questionCost : 0;
+    return this._score;
   }
 
-  public resetGame(): void {
-    questionsDb.forEach(function (q, ind, questionslist) {
-      let aInd: number = q.answersList.findIndex(a => a.status == 'answered');
+  public resetGame(questionList: Array<Question>): void {
+    questionList.forEach(function (q, ind, questionslist) {
+      let aInd: number = q.answersList.findIndex(a => a.status == 'answered' || a.status == 'correct');
       questionslist[ind].answersList[aInd].status = 'default';
     });
-    // this._questions =  questionsDb.map(el => Object.assign({}, el)); // что с этой штукой не так?
   }
 }

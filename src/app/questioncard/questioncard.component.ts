@@ -8,7 +8,7 @@ import { Answer } from '../models/answer';
   styleUrls: ['./questioncard.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class QuestioncardComponent /*implements OnInit*/ {
+export class QuestioncardComponent {
 
   @Input()
   public q!: Question;
@@ -20,15 +20,11 @@ export class QuestioncardComponent /*implements OnInit*/ {
     this.clickEmitter = new EventEmitter();
   }
 
-  public clickHandler(answer: Answer): void {
-    console.log("return answer: " + answer.answer);
-    this.q.answersList.forEach(function (el, index, arr) {
-      arr[index].status = el.answer == answer.answer ? answer.status : 'default';
-    });
-
-    const answeredAnswer: number = this.q.answersList.findIndex(el => el.status == 'answered');
-    if (this.q.isAnswered() && this.q.getAnsweredIndex() != this.q.getCorrectAnswerIndex()) {
-      this.showCorrectAnswerHandler();
+  public clickAnswerHandler(answer: Answer): void {
+    console.log('questioncard.component clickAnswerHandler');
+    this.q.resetSelectedAnswer(answer);
+    if (answer.status == 'answered') {
+      this.showCorrectIfAnswerWrong();
       this.clickEmitter.emit(this.q);
     }
   }
@@ -37,15 +33,21 @@ export class QuestioncardComponent /*implements OnInit*/ {
     this.q.setCorrectAnswerToAnswered();
   }
 
-  // public getCurrentAnswer(): number {
-  //   return this.q.answersList.findIndex(a => a.status == 'selected');
-  // }
-
-  public questionStatus(): string {
+  public getQuestionStatus(): string {
+    console.log('questioncard.component getQuestionStatus');
     if (!this.q.isAnswered()) {
       const ind = this.q.answersList.findIndex(el => el.status == 'selected')
       return ind + ' ' + this.q.answersList[ind]?.status;
     }
     return 'answered';
   }
+
+  public showCorrectIfAnswerWrong(): void {
+    console.log('questioncard.component showCorrectAnswerHandler');
+    const answeredAnswer: number = this.q.answersList.findIndex(el => el.status == 'answered');
+    if (this.q.isAnswered() && this.q.getAnsweredIndex() != this.q.getCorrectAnswerIndex()) {
+      this.q.setCorrectAnswerToAnswered();
+    }
+  }
+
 }

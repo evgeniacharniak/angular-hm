@@ -7,7 +7,7 @@ import { Answer } from '../models/answer';
   styleUrls: ['./answercard.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class AnswercardComponent implements OnChanges {
+export class AnswercardComponent /*implements OnChanges*/ {
 
   @Input()
   public answer!: Answer;
@@ -21,11 +21,12 @@ export class AnswercardComponent implements OnChanges {
   public constructor() {
     this.clickEmitter = new EventEmitter();
   }
-  ngOnChanges(changes: SimpleChanges): void {
-    console.log('on changes')
-  }
 
-  public checkAnswerHandler() {
+  // ngOnChanges(changes: SimpleChanges): void {
+  //   console.log('on changes')
+  // }
+
+  public clickAnswerHandler() {
     this.answer.status = this.answer.status == 'default' ? 'selected' : 'answered';
     this.clickEmitter.emit(this.answer);
   }
