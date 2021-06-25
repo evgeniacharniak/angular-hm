@@ -1,10 +1,6 @@
 <button
     class="answer"
-    [ngClass]="{answer_init:(answer.status == 'default'),
-                answer_select:(answer.status == 'selected'),
-                answer_correct:(answer.status == 'answered' && answer.isCorrect || answer.status == 'correct'),
-                answer_wrong:(answer.status == 'answered' && !answer.isCorrect),
-                answer_disabled: (questionStatus == 'answered') }"
+    [ngClass]="getClassByAnswerStatus()"
     (click)="clickAnswerHandler()"
 >
     {{answer.answer}}

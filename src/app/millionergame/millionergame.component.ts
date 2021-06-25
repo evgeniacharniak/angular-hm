@@ -1,6 +1,4 @@
 import { ChangeDetectionStrategy, Component, Input, OnInit } from '@angular/core';
-import { Observable } from 'rxjs';
-import { connectableObservableDescriptor } from 'rxjs/internal/observable/ConnectableObservable';
 import { QuestionsDataService } from '../data-service/questions-data.service';
 import { Answer } from '../models/answer';
 import { MillionerGame } from '../models/millionergame';
@@ -14,32 +12,27 @@ import { Question } from '../models/question';
 })
 export class MillionergameComponent implements OnInit {
 
-  // @Input()
-  // public questions!: Array<Question>; // when questions come from app component
+  @Input()
+  public questionsList!: Array<Question>;
+
+  private _statuses!: Array<'default' | 'selected' | 'answered'>;
+  public get statuses(): Array<'default' | 'selected' | 'answered'> {
+    return this._statuses;
+  }
 
   private _game: MillionerGame;
   public get game(): MillionerGame {
     return this._game;
   }
 
-  private _questions$: Observable<Array<Question>>;
-  public get questions$(): Observable<Array<Question>> {
-    return this._questions$;
+  private _gameScore: number = 0;
+  public get gameScore(): number {
+    return this._gameScore;
   }
 
-  private _score: number = 0;
-  public get score(): number {
-    return this._score;
-  }
-
-  private _qn!: number;
-  public get qn(): number {
-    return this._qn;
-  }
-
-  private _gamestatus: 'default' | 'next' | 'finished' = 'default';
-  public get gamestatus(): string {
-    return this._gamestatus;
+  private _questionIndex!: number;
+  public get questionIndex(): number {
+    return this._questionIndex;
   }
 
   private _lastQuestion!: Question;
@@ -50,32 +43,58 @@ export class MillionergameComponent implements OnInit {
   }
 
   public constructor(private _questionsDataService: QuestionsDataService) {
-    this._questions$ = this.questionsDataService.getQuestionsObservable();
     this._game = new MillionerGame();
   }
 
   ngOnInit(): void {
-    this._qn = 0;
+    this._statuses = Array(4).fill('default');
+    this._questionIndex = 0;
   }
 
   public nextQuestionHandler(): void {
-    this._gamestatus = 'default';
-    this._qn++;
+    this._questionIndex++;
+    this._statuses.fill('default');
   }
 
   public restart(): void {
-    this._qn = 0;
-    this._gamestatus = 'default';
+    this._questionIndex = 0;
+    this._statuses.fill('default');
   }
 
-  public answerQuestionHandler(q: Question): void {
-    console.log('millionergame.component answerQuestionHandler');
-    this._score = this.game.updateScore(q);
-    if(this.qn != 2) {
-      this._gamestatus = 'next';
-    } else {
-      this._gamestatus = 'finished';
+  public isGameFinished(): boolean {
+    console.log('millionergame.component isGameFinished');
+    return this._questionIndex == this.questionsList.length - 1 &&
+      this._statuses[this.questionsList[this._questionIndex].getCorrectAnswerIndex()] == 'answered'
+    return false;
+  }
+
+  public isCurrentQuestionAnswered(): boolean {
+    return !!this._statuses.find(status => status == 'answered');
+  }
+
+  public clickAnswerHandler(answer: Answer): void {
+    console.log('millionergame.component clickAnswerHandler');
+    const answerIndex = this.questionsList[this._questionIndex].getAnswerIndex(answer);
+    this.updateAnswerStatuses(answerIndex);
+    if (this._statuses[answerIndex] == 'answered') {
+      if (answer.isCorrect) {
+        this._gameScore = this.game.updateScore(this.questionsList[this._questionIndex]);
+      } else {
+          this.setCorrectAnswerHandler();
+      }
     }
+  }
+
+  public updateAnswerStatuses(answerIndex: number): void {
+    console.log('millionergame.component updateAnswerStatuses');
+    this._statuses.forEach(function (status, index, arr) {
+      arr[index] = index == answerIndex ? (status=='default' ? 'selected' : 'answered') : 'default';
+    });
+  }
+
+  public setCorrectAnswerHandler(): void {
+    console.log('questioncard.component showCorrectAnswerHandler');
+    this._statuses[this.questionsList[this._questionIndex].getCorrectAnswerIndex()] = 'answered';
   }
 }
 

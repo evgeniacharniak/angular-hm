@@ -7,27 +7,33 @@ import { Answer } from '../models/answer';
   styleUrls: ['./answercard.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class AnswercardComponent /*implements OnChanges*/ {
+export class AnswercardComponent {
 
   @Input()
   public answer!: Answer;
 
   @Input()
-  public questionStatus!: string;
+  public answerStatus!: string;
 
   @Output()
-  public clickEmitter: EventEmitter<Answer>;
+  public clickAnswerEmitter: EventEmitter<Answer>;
 
   public constructor() {
-    this.clickEmitter = new EventEmitter();
+    this.clickAnswerEmitter = new EventEmitter();
   }
 
-  // ngOnChanges(changes: SimpleChanges): void {
-  //   console.log('on changes')
-  // }
-
   public clickAnswerHandler() {
-    this.answer.status = this.answer.status == 'default' ? 'selected' : 'answered';
-    this.clickEmitter.emit(this.answer);
+    this.answerStatus = this.answerStatus == 'default' ? 'selected' : 'answered';
+    this.clickAnswerEmitter.emit(this.answer);
+  }
+
+  public getClassByAnswerStatus(): string {
+    let answerClass = '';
+    switch (this.answerStatus) {
+      case 'default': answerClass = 'answer_init'; break;
+      case 'selected': answerClass = 'answer_select'; break;
+      case 'answered': this.answer.isCorrect ? answerClass = 'answer_correct' : answerClass = 'answer_wrong'; break;
+    }
+    return answerClass;
   }
 }

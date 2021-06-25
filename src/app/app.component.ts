@@ -1,4 +1,5 @@
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
+import { Observable } from 'rxjs';
 import { QuestionsDataService } from './data-service/questions-data.service';
 import { Question } from './models/question';
 
@@ -10,20 +11,14 @@ import { Question } from './models/question';
 })
 export class AppComponent /*implements OnInit*/ {
 
-  // private _questionsList!: Array<Question>;
-  // public get questionsList(): Array<Question> {
-  //   return this._questionsList;
-  // }
+  private _questions$: Observable<Array<Question>>;
+  public get questions$(): Observable<Array<Question>> {
+    return this._questions$;
+  }
 
-  // public get questionsDataService(): QuestionsDataService {
-  //   return this._questionsDataService;
-  // }
-
-  // public constructor(private _questionsDataService: QuestionsDataService) {
-  //   this.questionsDataService.getQuestionsObservable().subscribe(questions => {
-  //     this._questionsList = questions;
-  //   });
-  // }
+  public constructor(questionsDataService: QuestionsDataService) {
+    this._questions$ = questionsDataService.getQuestionsList();
+  }
 
   // ngOnInit(): void {
   //   console.log('app.component ngOnInit');
