@@ -1,36 +1,35 @@
+import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable, of } from 'rxjs';
+import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
 import { Answer } from '../models/answer';
 import { Question } from '../models/question';
 
 @Injectable()
 export class QuestionsDataService {
 
-  public getQuestionsList(): Observable<Array<Question>> {
-    return of(new Array(
-      new Question('question1',
-        new Array(new Answer('answer1_1', false),
-          new Answer('answer1_2', false),
-          new Answer('answer1_3', true),
-          new Answer('answer1_4', false)
-        ),
-        5
-      ),
-      new Question('question2',
-        new Array(new Answer('answer2_1', false),
-          new Answer('answer2_2', true),
-          new Answer('answer2_3', false),
-          new Answer('answer2_4', false)
-        ),
-        10
-      ),
-      new Question('question3',
-        new Array(new Answer('answer3_1', false),
-          new Answer('answer3_2', false),
-          new Answer('answer3_3', false),
-          new Answer('answer3_4', true)
-        ),
-        20
-      )));
+  public constructor(private _httpClient: HttpClient) { }
+
+  public getQuestions(): Observable<Array<Question>> {
+    console.log('getQuestions');
+    return Question.parseQuestions(this._httpClient.get<Array<Question>>(`questions`));
+  }
+
+  public validateAnswer(questionId: number, answerId: number): Observable<boolean> {
+    console.log('validateAnswer');
+    return this._httpClient.get<Array<any>>(`questions`).pipe(map(questionsList => {
+        return questionsList.find(question => question.id == questionId)?.
+          answersList.find((answer: { id: number; isCorrect: boolean;}) => answer.id == answerId)?.isCorrect == 'true' ? true : false;
+      }))
+    ;
+  }
+
+  public getCorrectAnswerId(questionId: number): Observable<number> {
+    console.log('getCorrectAnswerId');
+    return this._httpClient.get<Array<any>>(`questions`).pipe(map(questionsList => {
+        return questionsList.find(question => question.id == questionId)?.
+          answersList.find((answer: { id: number; isCorrect: any; }) => answer.isCorrect == 'true')?.id!;
+      }))
+    ;
   }
 }

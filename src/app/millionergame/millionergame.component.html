@@ -1,35 +1,37 @@
 <h1>Кто хочет стать миллионером!?</h1>
 
-<h3>
-    {{questionsList[questionIndex].question}}
-</h3>
-<mf-answercard
-    *ngFor="let answer of questionsList[questionIndex].answersList; let i=index;"
-    [answer]="answer"
-    [answerStatus]="statuses[i]"
-    (clickAnswerEmitter)="clickAnswerHandler($event)"
->
-    {{answer.answer}}
-</mf-answercard>
+<div *ngIf="!!questionsList">
+    <h3>
+        {{questionsList[questionIndex].text}}
+    </h3>
+    <mf-answercard
+        *ngFor="let answer of questionsList[questionIndex].answersList; let i=index;"
+        [answer]="answer"
+        [answerStatus]="statuses[i]"
+        (clickAnswerEmitter)="clickAnswerHandler($event)"
+    >
+        {{answer.text}}
+    </mf-answercard>
 
-<div *ngIf="isGameFinished(); else continueGame">
-    <p>
-        Игра завершена! Ваш счет составил: {{gameScore}}
-    </p>
-    <button
-        class="button_control"
-        (click)="restart()"
-    >
-        Начать игру заново
-    </button>
+    <div *ngIf="isGameFinished(); else continueGame">
+        <p>
+            Игра завершена! Ваш счет составил: {{gameScoreHandler}}
+        </p>
+        <button
+            class="button_control"
+            (click)="restart()"
+        >
+            Начать игру заново
+        </button>
+    </div>
+    <ng-template #continueGame>
+        <p>Текущий счет: {{gameScoreHandler}}</p>
+        <button
+            class="button_control"
+            *ngIf="isCurrentQuestionAnswered()"
+            (click)="nextQuestionHandler()"
+        >
+            Следующий вопрос
+        </button>
+    </ng-template>
 </div>
-<ng-template #continueGame>
-    <p>Текущий счет: {{gameScore}}</p>
-    <button
-        class="button_control"
-        *ngIf="isCurrentQuestionAnswered()"
-        (click)="nextQuestionHandler()"
-    >
-        Следующий вопрос
-    </button>
-</ng-template>

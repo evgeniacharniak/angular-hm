@@ -23,17 +23,19 @@ export class AnswercardComponent {
   }
 
   public clickAnswerHandler() {
-    this.answerStatus = this.answerStatus == 'default' ? 'selected' : 'answered';
     this.clickAnswerEmitter.emit(this.answer);
   }
 
   public getClassByAnswerStatus(): string {
-    let answerClass = '';
+    let answerClass: string = '';
+
     switch (this.answerStatus) {
       case 'default': answerClass = 'answer_init'; break;
       case 'selected': answerClass = 'answer_select'; break;
-      case 'answered': this.answer.isCorrect ? answerClass = 'answer_correct' : answerClass = 'answer_wrong'; break;
+      case 'correct': answerClass = 'answer_correct'; break;
+      case 'wrong': answerClass = 'answer_wrong'; break;
     }
+
     return answerClass;
   }
 }
